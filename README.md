@@ -46,6 +46,13 @@ Im Browser: http://localhost:5000. Zugangsdaten für den Admin-Bereich: lg:lg
 
 Für das Formular zum Suchen von Schlafplätzen: http://localhost:5000/suche-schlafplatz
 
+
+Um ein paar Testdaten (Unterkünfte + Menschen) zu generieren:
+
+```
+poetry run python tests/generate_test_data.py
+```
+
 ### Tests
 
 Um die Tests laufen zu lassen:
