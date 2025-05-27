@@ -1,15 +1,12 @@
 from datetime import date
 import uuid
 from numpy.random import randint, choice
-from ipydex import IPS
 
 # imports work when running python -m tests.generate_test_data from parent directory
-from bettenboerse.models import Shelter, Reservation, Mensch, db
+from bettenboerse.models import Shelter, Mensch, db
 from bettenboerse import settings
 
 from flask import Flask
-import contextlib
-from sqlalchemy import MetaData
 
 
 app = Flask(__name__)
@@ -196,28 +193,28 @@ shelter_data = [
 def random_name() -> str:
     '''generate random names from a set of 100 names and 50 surnames'''
     names = [
-    "Anna", "Miguel", "Aisha", "Hiroshi", "Fatima", "Luca", "Sofia", "Jamal", "Yara", "Mateo",
-    "Leila", "Nikolai", "Amara", "Omar", "Hana", "Carlos", "Mei", "Ibrahim", "Zoe", "Luis",
-    "Anya", "Tariq", "Sinead", "Raj", "Elena", "Mateo", "Nadia", "Kenji", "Amina", "Felix",
-    "Imani", "Alexei", "Noor", "Diego", "Kaori", "Selim", "Lina", "Pedro", "Yasmin", "Satoshi",
-    "Malika", "Theo", "Alina", "Zain", "Amelie", "Jamila", "Stefan", "Nia", "Rafael", "Daria",
-    "Malik", "Freya", "Kofi", "Sara", "Javier", "Laila", "Boris", "Anika", "Samir", "Ingrid",
-    "Omar", "Maja", "Hassan", "Elina", "Tarek", "Yasmina", "Elias", "Aaliyah", "Bruno", "Malin",
-    "Zofia", "Karim", "Ingrid", "Mateus", "Lila", "Arjun", "Maya", "Sven", "Amira", "Tariq",
-    "Sofia", "Rashid", "Maren", "Ibrahim", "Noemi", "Khalid", "Alina", "Luca", "Noura", "Victor",
-    "Leila", "Samira", "Emil", "Dalia", "Rajesh", "Selma", "Jonas", "Amina", "Luis", "Hana", 'Uwe']
+        "Anna", "Miguel", "Aisha", "Hiroshi", "Fatima", "Luca", "Sofia", "Jamal", "Yara", "Mateo",
+        "Leila", "Nikolai", "Amara", "Omar", "Hana", "Carlos", "Mei", "Ibrahim", "Zoe", "Luis",
+        "Anya", "Tariq", "Sinead", "Raj", "Elena", "Mateo", "Nadia", "Kenji", "Amina", "Felix",
+        "Imani", "Alexei", "Noor", "Diego", "Kaori", "Selim", "Lina", "Pedro", "Yasmin", "Satoshi",
+        "Malika", "Theo", "Alina", "Zain", "Amelie", "Jamila", "Stefan", "Nia", "Rafael", "Daria",
+        "Malik", "Freya", "Kofi", "Sara", "Javier", "Laila", "Boris", "Anika", "Samir", "Ingrid",
+        "Omar", "Maja", "Hassan", "Elina", "Tarek", "Yasmina", "Elias", "Aaliyah", "Bruno", "Malin",
+        "Zofia", "Karim", "Ingrid", "Mateus", "Lila", "Arjun", "Maya", "Sven", "Amira", "Tariq",
+        "Sofia", "Rashid", "Maren", "Ibrahim", "Noemi", "Khalid", "Alina", "Luca", "Noura", "Victor",
+        "Leila", "Samira", "Emil", "Dalia", "Rajesh", "Selma", "Jonas", "Amina", "Luis", "Hana", 'Uwe']
 
     surnames = [
-    "Müller", "Kumar", "Garcia", "Wang", "Smith", "Ahmed", "Ivanov", "Hernandez", "Tanaka", "Ali",
-    "Petrov", "Gonzalez", "Nguyen", "Kowalski", "Dubois", "Silva", "Yamamoto", "Brown", "Schneider", "Rahman",
-    "Popescu", "Rodriguez", "Lee", "Bakker", "Singh", "Hussein", "Martinez", "Nakamura", "Öztürk", "Johansson",
-    "Novak", "Fernandes", "Meier", "Sato", "Lopez", "Kim", "Kone", "Zimmermann", "Baranov", "Castro",
-    "Takahashi", "Weber", "Chowdhury", "Da Silva", "Nowak", "Moreno", "Saidi", "Gruber", "Bakr", "Schmitt"]
+        "Müller", "Kumar", "Garcia", "Wang", "Smith", "Ahmed", "Ivanov", "Hernandez", "Tanaka", "Ali",
+        "Petrov", "Gonzalez", "Nguyen", "Kowalski", "Dubois", "Silva", "Yamamoto", "Brown", "Schneider", "Rahman",
+        "Popescu", "Rodriguez", "Lee", "Bakker", "Singh", "Hussein", "Martinez", "Nakamura", "Öztürk", "Johansson",
+        "Novak", "Fernandes", "Meier", "Sato", "Lopez", "Kim", "Kone", "Zimmermann", "Baranov", "Castro",
+        "Takahashi", "Weber", "Chowdhury", "Da Silva", "Nowak", "Moreno", "Saidi", "Gruber", "Bakr", "Schmitt"]
 
     return f'{choice(names)} {choice(surnames)}'
 
 
-def generate_Mensch_data():    
+def generate_Mensch_data():
     bezugi = choice(['Kresse', 'Wilder Rucola', 'Sauerampfer', 'Wütendampfer',
                      'Milder Ampfer', 'Schlauerampfer', 'Angeberampfer'])
 
@@ -237,6 +234,7 @@ def generate_Mensch_data():
 
     return Mensch_dict
 
+
 def clear_database():
     meta = db.metadata
     conn = db.engine.connect()
@@ -246,6 +244,7 @@ def clear_database():
         conn.execute(table.delete())
     trans.commit()
     conn.close()
+
 
 with app.app_context():
     if 'unterkünfte_test' in settings.DB_LOCATION:
@@ -257,8 +256,5 @@ with app.app_context():
     for i in range(30):
         m = Mensch(**generate_Mensch_data())
         db.session.add(m)
-    
+
     db.session.commit()
-
-
-
