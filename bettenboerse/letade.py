@@ -12,7 +12,7 @@ from flask import Response
 
 from datetime import date
 
-import settings
+import bettenboerse.settings as settings
 from bettenboerse.models import Shelter, Reservation, Mensch
 
 def format_name(name: str, linelen: int=20) -> str:
